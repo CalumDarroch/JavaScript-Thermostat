@@ -28,4 +28,13 @@ describe('Thermostat', function() {
 
   });
 
+  describe('temperature cannot drop below', function() {
+
+    it('10 degrees', function() {
+      expect(function() {
+        thermostat.down(11);}).toThrow("Temperature cannot drop below 10");
+    });
+
+  });
+
 })

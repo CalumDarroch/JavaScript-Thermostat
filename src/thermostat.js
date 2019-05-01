@@ -11,5 +11,9 @@ Thermostat.prototype.up = function(number) {
 };
 
 Thermostat.prototype.down = function(number) {
+  if (this._temperature - number < 10) {
+    throw "Temperature cannot drop below 10";
+  } else {
   this._temperature -= number;
+}
 };
