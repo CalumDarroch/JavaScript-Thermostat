@@ -62,4 +62,23 @@ describe('Thermostat', function() {
 
   });
 
+  describe('If the user asks about the thermostats energy usage', function() {
+
+    it('returns "low-usage" if below 18 degrees', function() {
+      thermostat.down(3);
+      expect(thermostat.energyUsage()).toEqual("low-usage");
+    });
+
+    it('returns "high-usage" if above 25 degrees', function() {
+      thermostat.changePowerMode();
+      thermostat.up(6);
+      expect(thermostat.energyUsage()).toEqual("high-usage");
+    });
+
+    it('returns "medium-usage" if between 18 and 25 degrees inclusive', function() {
+      expect(thermostat.energyUsage()).toEqual("medium-usage");
+    });
+
+  });
+
 })
