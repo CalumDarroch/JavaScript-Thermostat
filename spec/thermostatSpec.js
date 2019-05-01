@@ -14,4 +14,13 @@ describe('Thermostat', function() {
 
   });
 
+  describe('allows the user to', function() {
+
+    it('increase the temperature', function() {
+      thermostat.up(2);
+      expect(thermostat.temperature()).toBe(22);
+    });
+
+  });
+
 })
