@@ -26,6 +26,12 @@ describe('Thermostat', function() {
       expect(thermostat.temperature()).toBe(18);
     });
 
+    it('reset the temperature to 20', function() {
+      thermostat.up(4);
+      thermostat.reset();
+      expect(thermostat.temperature()).toBe(20);
+    });
+
   });
 
   describe('temperature cannot drop below', function() {
