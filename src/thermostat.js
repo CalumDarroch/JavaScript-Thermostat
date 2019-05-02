@@ -1,6 +1,8 @@
 function Thermostat() {
   this._temperature = 20;
   this._powerSaving = true;
+  this._MAX_TEMP = 25;
+  this._MIN_TEMP = 10;
 };
 
 Thermostat.prototype.temperature = function() {
@@ -8,18 +10,17 @@ Thermostat.prototype.temperature = function() {
 };
 
 Thermostat.prototype.up = function(number) {
-  if ((this._powerSaving === true) && (this._temperature + number > 25)) {
-    throw "Maximum temperature in power saving mode is 25";
-  }
-  else if ((this._powerSaving === false) && (this._temperature + number > 32)) {
-    throw "Maximum temperature when not in power saving mode is 32";
+  if (this._temperature + number > this._MAX_TEMP) {
+    this._temperature = this._MAX_TEMP;
+    throw `Maximum temperature is ${this._MAX_TEMP}`;
   } else {
   this._temperature += number;
   }
 };
 
 Thermostat.prototype.down = function(number) {
-  if (this._temperature - number < 10) {
+  if (this._temperature - number < this._MIN_TEMP) {
+    this._temperature = this._MIN_TEMP;
     throw "Temperature cannot drop below 10";
   } else {
   this._temperature -= number;
@@ -31,11 +32,16 @@ Thermostat.prototype.powerSaving = function() {
 };
 
 Thermostat.prototype.changePowerMode = function() {
-  if (this._powerSaving === true) {
-    this._powerSaving = false;
+  this._powerSaving = !this._powerSaving;
+  this.setMaxLimit();
+};
+
+Thermostat.prototype.setMaxLimit = function() {
+  if(this._powerSaving === true) {
+    this._MAX_TEMP = 25;
   }
   else if (this._powerSaving === false) {
-    this._powerSaving = true;
+    this._MAX_TEMP = 32;
   }
 };
 
