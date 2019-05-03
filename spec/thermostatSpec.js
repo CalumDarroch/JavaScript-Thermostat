@@ -17,17 +17,17 @@ describe('Thermostat', function() {
   describe('allows the user to', function() {
 
     it('increase the temperature', function() {
-      thermostat.up(2);
-      expect(thermostat.temperature()).toBe(22);
+      thermostat.up();
+      expect(thermostat.temperature()).toBe(21);
     });
 
     it('decrease the temperature', function() {
-      thermostat.down(2);
-      expect(thermostat.temperature()).toBe(18);
+      thermostat.down();
+      expect(thermostat.temperature()).toBe(19);
     });
 
     it('reset the temperature to 20', function() {
-      thermostat.up(4);
+      thermostat.up();
       thermostat.reset();
       expect(thermostat.temperature()).toBe(20);
     });
@@ -37,8 +37,12 @@ describe('Thermostat', function() {
   describe('temperature cannot drop below', function() {
 
     it('10 degrees', function() {
-      expect(function() {
-        thermostat.down(11);}).toThrow("Temperature cannot drop below 10");
+      var error = "Temperature cannot drop below 10";
+      for(var i = 0; i < 9; i++) {
+        thermostat.down();
+      };
+      expect(function() { thermostat.down() }).not.toThrow(error);
+      expect(function() { thermostat.down() }).toThrow(error);
     });
 
   });
@@ -46,8 +50,12 @@ describe('Thermostat', function() {
   describe('If power saving mode is ON', function() {
 
     it('the maximum temperature is 25 degrees', function() {
-      expect(function() {
-        thermostat.up(6);}).toThrow("Maximum temperature is 25");
+      var error = "Maximum temperature is 25";
+      for(var i = 0; i < 4; i++) {
+        thermostat.up();
+      };
+      expect(function() { thermostat.up() }).not.toThrow(error);
+      expect(function() { thermostat.up() }).toThrow(error);
     });
 
   });
@@ -56,8 +64,12 @@ describe('Thermostat', function() {
 
     it('the maximum temperature is 32 degrees', function() {
       thermostat.changePowerMode();
-      expect(function() {
-        thermostat.up(13);}).toThrow("Maximum temperature is 32");
+      var error = "Maximum temperature is 32";
+      for(var i = 0; i < 11; i++) {
+        thermostat.up();
+      };
+      expect(function() { thermostat.up() }).not.toThrow(error);
+      expect(function() { thermostat.up() }).toThrow(error);
     });
 
   });
@@ -65,13 +77,17 @@ describe('Thermostat', function() {
   describe('If the user asks about the thermostats energy usage', function() {
 
     it('returns "low-usage" if below 18 degrees', function() {
-      thermostat.down(3);
+      for(var i = 0; i < 3; i++) {
+        thermostat.down();
+      };
       expect(thermostat.energyUsage()).toEqual("low-usage");
     });
 
     it('returns "high-usage" if above 25 degrees', function() {
       thermostat.changePowerMode();
-      thermostat.up(6);
+      for(var i = 0; i < 6; i++) {
+        thermostat.up();
+      };
       expect(thermostat.energyUsage()).toEqual("high-usage");
     });
 

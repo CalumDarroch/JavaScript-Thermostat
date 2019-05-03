@@ -9,21 +9,19 @@ Thermostat.prototype.temperature = function() {
   return this._temperature;
 };
 
-Thermostat.prototype.up = function(number) {
-  if (this._temperature + number > this._MAX_TEMP) {
-    this._temperature = this._MAX_TEMP;
+Thermostat.prototype.up = function() {
+  if (this._temperature === this._MAX_TEMP) {
     throw `Maximum temperature is ${this._MAX_TEMP}`;
   } else {
-  this._temperature += number;
+  this._temperature += 1;
   }
 };
 
-Thermostat.prototype.down = function(number) {
-  if (this._temperature - number < this._MIN_TEMP) {
-    this._temperature = this._MIN_TEMP;
-    throw "Temperature cannot drop below 10";
+Thermostat.prototype.down = function() {
+  if (this._temperature === this._MIN_TEMP) {
+    throw `Temperature cannot drop below ${this._MIN_TEMP}`;
   } else {
-  this._temperature -= number;
+  this._temperature -= 1;
   }
 };
 
